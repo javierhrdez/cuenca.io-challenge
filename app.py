@@ -5,8 +5,21 @@ import time
 from functools import wraps
 import numpy as np
 
+import socket
+import time
+import os
 
-#engine = db.create_engine('postgresql://postgres:12345678@localhost:5432/eight_queen')
+port = 5432
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+while True:
+    try:
+        s.connect(('db', port))
+        s.close()
+        break
+    except socket.error as ex:
+        time.sleep(0.1)
+
 engine = db.create_engine('postgresql://postgres:password@db:5432/postgres')
 connection = engine.connect()
 metadata = db.MetaData()
@@ -48,7 +61,6 @@ def save_solutions(N,board):
    flatten = flat_matrix(board)
    ins = solutions.insert(None).values(chessboard_size = N, solution = flatten)
    connection.execute(ins)
-
 
 
 class BacktrackingNQueensOptimizedSafetyCheck:
