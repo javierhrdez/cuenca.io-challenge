@@ -34,18 +34,6 @@ solutions = db.Table(
 
 metadata.create_all(engine)
 
-#https://github.com/edorado93/Save-The-Queens/blob/master/n-queens-backtracking-optimized.py
-
-def timer(func):
-   @wraps(func)
-   def wrapper(*args, **kwargs):
-      start = time.time() * 1000
-      func(*args, **kwargs)
-      end = time.time() * 1000
-      print("Tiempo  de {} es {} ms".format(func.__name__, str(end - start)))
-   return wrapper
-
-
 def flat_matrix(sol):
 
    sol = np.array(sol)
@@ -57,7 +45,6 @@ def flat_matrix(sol):
    return flatten
 
 def save_solutions(N,board):
-   #save solution in database
    flatten = flat_matrix(board)
    ins = solutions.insert(None).values(chessboard_size = N, solution = flatten)
    connection.execute(ins)
@@ -101,7 +88,7 @@ class BacktrackingNQueensOptimizedSafetyCheck:
       del self.anti_diagonals[r + c]
       self.board[r][c] = 0
 
-   #@timer
+
    def get_boards(self):
       for i in self.solve(0):
          yield i
@@ -132,9 +119,3 @@ class BacktrackingNQueensOptimizedSafetyCheck:
    def get_board(self):
       return self.board
 
-#if __name__ == "__main__":
-#   for i in range(1,15):
-#      solver = BacktrackingNQueensOptimizedSafetyCheck(i)
-#      solver.run()
-#      print(i,solver.get_number_of_solutions())
-#   connection.close()
