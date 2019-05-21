@@ -1,7 +1,6 @@
-language: python
-python:
-  - "3.6"
-install:
-  - pip install -r requirements.txt
+services:
+  - docker
+
 script:
-  - pytest -s
+  - docker-compose -f docker-compose.common.yml -f docker-compose.test.yml build --no-cache
+  - docker-compose -f docker-compose.common.yml -f docker-compose.test.yml up
