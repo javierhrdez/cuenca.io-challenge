@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  nqueens:
+    container_name: n_queens
+    image: javierhrdez/n_reinas
+    build: .
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    command: ["python","main.py"]
+
+
+
